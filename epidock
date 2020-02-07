@@ -1,0 +1,10 @@
+#!/bin/bash
+
+SRC=`pwd`
+if [ "$#" -eq 1 ]; then
+	SRC=`realpath $1`
+fi
+
+DEST=/home/student/
+
+docker run --rm -v "$SRC:$DEST" -it --security-opt seccomp:unconfined epitechcontent/epitest-docker /bin/bash -c 'useradd student -M && echo student:root | chpasswd && echo root:root | chpasswd && echo -e "student\tALL=(ALL)\tALL" >> /etc/sudoers && su - student'
